@@ -7,10 +7,13 @@ const Quiz = () => {
     const [answeredState , setAnswerState] = useState('')
     const[userAnswers , setUserAnswers] = useState([])
     const activeQuestionIndex = answeredState === '' ? userAnswers.length : userAnswers.length-1;
+ 
     const quizIsComplete = activeQuestionIndex === QUESTIONS.length
     const handleSelectAnswer = useCallback(function handleSelectAnswer (selectedAnswer) {
       setAnswerState('answered')
-     
+       setUserAnswers((prevUserAnswers)=>{
+        return [...prevUserAnswers , selectedAnswer]
+       })
       setTimeout(()=>{
         if(selectedAnswer === QUESTIONS[activeQuestionIndex].answers[0]) {
           setAnswerState('correct')
@@ -30,6 +33,7 @@ const Quiz = () => {
       </div>
     }
     const shuffledAnswers = [...QUESTIONS[activeQuestionIndex].answers]
+    
     shuffledAnswers.sort(()=> Math.random()-0.5)
   return (
     <div id="quiz">
